@@ -55,6 +55,10 @@ class TestGenerateVersionTag(unittest.TestCase):
         versioned_tags = generate_versioned_tags(None, '5.4.1')
         self.assertEqual(versioned_tags, ['5.4.1', '5.4', '5'])
 
+    def test_no_version_zero(self):
+        versioned_tags = generate_versioned_tags('foo', '0.4.1')
+        self.assertEqual(versioned_tags, ['0.4.1-foo', '0.4-foo'])
+
 
 if __name__ == '__main__':
     unittest.main(buffer=True)

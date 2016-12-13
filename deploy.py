@@ -70,11 +70,12 @@ def generate_versioned_tags(tag, version):
 def generate_sub_versions(version):
     """
     Generate strings of the given version to different degrees of precision.
+    Won't generate a version 0.
     e.g. '5.4.1' => ['5.4.1', '5.4', '5']
          '5.5.0-alpha' => ['5.5.0-alpha', '5.5.0', '5.5', '5']
     """
     sub_versions = []
-    while version:
+    while version and version != '0':
         sub_versions.append(version)
         version = re.sub(r'[.-]?\w+$', r'', version)
     return sub_versions
