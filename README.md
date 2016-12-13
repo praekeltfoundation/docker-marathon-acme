@@ -1,4 +1,8 @@
 # docker-marathon-acme
+
+[![Requirements Status](https://requires.io/github/praekeltfoundation/docker-marathon-acme/requirements.svg?branch=master)](https://requires.io/github/praekeltfoundation/docker-marathon-acme/requirements/?branch=master)
+[![Build Status](https://travis-ci.org/praekeltfoundation/docker-marathon-acme.svg?branch=master)](https://travis-ci.org/praekeltfoundation/docker-marathon-acme)
+
 Release Docker images for [`marathon-acme`](https://github.com/praekeltfoundation/marathon-acme).
 
 ## Usage
