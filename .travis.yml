@@ -1,0 +1,36 @@
+sudo: required
+services:
+  - docker
+language: python
+env:
+  global:
+    - REGISTRY_USER=praekeltorgdeploy
+    - secure: "I3t1OHRkMqYALcImjqlfldP9348bMgRAaD/sNy6aZ+4PPGVPurlGHU3jMEQWJJ9ojOcAAoN1qC+8kVsM1Fj5r9jmLUm1ixFE83gCbesD0EzZ5nPR4DMi8YR6Fde2nJcPgUoOOiNtE6/ZXHtJT3F4R8xbandsCGjae9jcHHGwSkIBoS8A6iUnOX5SE6sLrSydAvVAPzrfxaogKDrWdrWyBLLd3Un/nSK+v2ATg3b01W4cU/Wbz591Q2M4Bi2Y2cdETHzs/higertEFFKEHOIr2PvD9AfJWcJp+JjHxpu17pkgPxwLmmf/ORfo56udV+wxkDFWA1HjOYWSvUpHpkOBVY6hWmZ1AiB6nqA0iqTix/dpC9ppFLxRaNNv9xZMbbUiNqjk/P5BVmwc41RGM1Ye43uD2+yMah600Z44bSipQvhBUiv0Nr1igzYeb7kUWZq572SN7V0BSSO+JL0wneHcRFjvAVYRWYkoIdoIvW9CPt2pRQ56mvmHsqiMQE+2r3x0IEzGO44fEFL7AH4y82TrGdyYbLc8VL90QQiligovwpL89SndCbdrm3ThhKv+9coay+WVtfyk5SQ1kK+9kQU23hkI5dMM5dwNrOLxxhllyXcaE8ii79/gvotY2AKt3rFvWJWfk+DGm87unSq73dn5eQqW5Mhoezg+PvlSxrHMxx4="
+
+# Update Docker Engine
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -qy -o Dpkg::Options::="--force-confold" docker-engine
+
+install:
+  - pip install coverage flake8
+
+before_script:
+  - image="praekeltfoundation/marathon-acme"
+  - version="$(sed -nE 's/\s*marathon-acme\s*==\s*([^\s\;]+).*/\1/p' requirements.txt)"
+
+script:
+  - docker build --tag "$image" .
+  - coverage run --source=deploy.py ./test_deploy.py && coverage report -m
+  - flake8 .
+
+after_script:
+  - docker images
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+deploy:
+  provider: script
+  script: ./deploy.py "$image" "$version"
+  on:
+    branch: develop
