@@ -2,6 +2,8 @@ sudo: required
 services:
   - docker
 language: python
+python:
+  - '3.5'
 env:
   global:
     - REGISTRY_USER=praekeltorgdeploy
