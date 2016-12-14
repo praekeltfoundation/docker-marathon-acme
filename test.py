@@ -87,12 +87,14 @@ class TestEntrypoint(unittest.TestCase):
         should change to the specified user when running and files created
         should be owned by the user.
         """
-        # Assume we're not running the tests as root
-        user = '%s:%s' % (os.getuid(), os.getgid())
+        uid, gid = os.getuid(), os.getgid()
+        # Make sure we're not running as root so the test makes sense
+        assert uid != 0
+
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = os.path.abspath(tmpdir)
             run_container(docker_opts=[
-                '-e', 'MARATHON_ACME_USER=%s' % (user,),
+                '-e', 'MARATHON_ACME_USER=%s:%s' % (uid, gid),
                 '-v', '%s:/var/lib/marathon-acme' % (tmpdir,),
             ])
 
@@ -101,8 +103,8 @@ class TestEntrypoint(unittest.TestCase):
             self.assertTrue(os.path.exists(client_key))
 
             stat = os.stat(client_key)
-            self.assertEqual(stat.st_uid, os.getuid())
-            self.assertEqual(stat.st_gid, os.getgid())
+            self.assertEqual(stat.st_uid, uid)
+            self.assertEqual(stat.st_gid, gid)
 
 
 if __name__ == '__main__':
