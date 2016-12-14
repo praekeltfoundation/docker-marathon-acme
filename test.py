@@ -85,7 +85,7 @@ class TestEntrypoint(unittest.TestCase):
         user = '%s:%s' % (os.getuid(), os.getgid())
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = os.path.abspath(tmpdir)
-            completed_process = run_container(docker_opts=[
+            run_container(docker_opts=[
                 '-e', 'MARATHON_ACME_USER=%s' % (user,),
                 '-v', '%s:/var/lib/marathon-acme' % (tmpdir,),
             ])
