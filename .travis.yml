@@ -23,6 +23,7 @@ before_script:
 
 script:
   - docker build --tag "$image" .
+  - ./test.py "$image"
   - coverage run --source=deploy.py ./test_deploy.py && coverage report -m
   - flake8 .
 
