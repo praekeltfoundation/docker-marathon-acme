@@ -15,6 +15,10 @@ def main(raw_args=sys.argv[1:]):
     parser.add_argument(
         'version', help='the full version to tag the image with')
     parser.add_argument(
+        '-l', '--latest', action='store_true',
+        help='tag and push this image with an unversioned tag to make it the '
+             'latest default release')
+    parser.add_argument(
         '-d', '--dry-run', action='store_true',
         help="don't execute any Docker commands, just print them")
 
@@ -24,7 +28,7 @@ def main(raw_args=sys.argv[1:]):
     image, tag = split_image_tag(image_tag)
 
     # Generate all the tags
-    versioned_tags = generate_versioned_tags(tag, version)
+    versioned_tags = generate_versioned_tags(tag, version, args.latest)
     versioned_image_tags = [':'.join((image, vtag)) for vtag in versioned_tags]
 
     # Tag the image with all the tags
@@ -44,7 +48,7 @@ def split_image_tag(image_tag):
     return image, tag
 
 
-def generate_versioned_tags(tag, version):
+def generate_versioned_tags(tag, version, latest=False):
     """
     Generate tags with version information from the given version. Appends the
     version to the given tag after removing the existing version if present.
@@ -53,18 +57,23 @@ def generate_versioned_tags(tag, version):
          '2.7-foo', '5.4.1' => ['5.4.1-2.7-foo', '5.4-2.7-foo', '5-2.7-foo']
          '5.4', '5.4.1'     => ['5.4.1', '5.4', '5']
          None, '5.4.1'      => ['5.4.1', '5.4', '5']
+
+    :param latest:
+        Whether to return the unversioned tag (or 'latest' tag) as well as the
+        versioned tags.
     """
     sub_versions = generate_sub_versions(version)
     if tag is None:
         # No existing tag, just tag with all versions
-        return sub_versions
+        return sub_versions + ['latest'] if latest else sub_versions
 
     unversioned_tag = get_unversioned_tag(tag, sub_versions)
     if not unversioned_tag:
         # No part of existing tag is not a version, just tag with all versions
-        return sub_versions
+        return sub_versions + ['latest'] if latest else sub_versions
 
-    return ['-'.join((v, unversioned_tag)) for v in sub_versions]
+    versioned_tags = ['-'.join((v, unversioned_tag)) for v in sub_versions]
+    return versioned_tags + [unversioned_tag] if latest else versioned_tags
 
 
 def generate_sub_versions(version):
