@@ -6,7 +6,13 @@ import sys
 import tempfile
 import unittest
 
-DEFAULT_TIMEOUT = 30  # Seconds
+# NOTE: these tests don't really work on Docker for Mac. There are two issues:
+# * `docker run` commands have a *lot* more latency on Docker for Mac and often
+#   time out... even with 30 seconds of leeway.
+# * The location that Python creates temporary directories isn't (by default)
+#   shared with Docker containers.
+DEFAULT_TIMEOUT = 15  # Seconds
+
 image = None
 
 
