@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import argparse
 import os
 import subprocess
 import sys
@@ -109,11 +108,12 @@ class TestEntrypoint(unittest.TestCase):
 
 if __name__ == '__main__':
     # FIXME: Is there a nicer way? :-(
-    parser = argparse.ArgumentParser()
-    parser.add_argument('image', help='the image to test')
-    args = parser.parse_args()
-    image = args.image
+    if len(sys.argv) < 2:
+        print('usage:', sys.argv[0], 'IMAGE [UNITTEST_ARGS]')
+        print('  where IMAGE is the Docker image tag to test, and')
+        print('        UNITTEST_ARGS are any arguments to pass to unittest')
+        sys.exit(1)
 
-    raw_args = list(sys.argv)
-    del raw_args[1]
-    unittest.main(argv=raw_args)
+    image = sys.argv[1]
+
+    unittest.main(argv=[sys.argv[0]] + sys.argv[2:])
