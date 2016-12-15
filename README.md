@@ -50,7 +50,7 @@ In most cases, `marathon-acme` should be run using Marathon itself. Here is an e
       ],
       "parameters": [
         {
-          "value": "xylem",
+          "value": "my-volume-driver",
           "key": "volume-driver"
         },
         {
