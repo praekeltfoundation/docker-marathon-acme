@@ -15,7 +15,7 @@ before_install:
   - sudo apt-get install -qy -o Dpkg::Options::="--force-confold" docker-engine
 
 install:
-  - pip install coverage flake8
+  - pip install 'coverage >= 4.3' flake8
 
 before_script:
   - image="praekeltfoundation/marathon-acme"
@@ -24,7 +24,7 @@ before_script:
 script:
   - docker build --tag "$image" .
   - ./test.py "$image"
-  - coverage run --source=deploy.py ./test_deploy.py && coverage report -m
+  - coverage run --include=deploy.py ./test_deploy.py && coverage report -m
   - flake8 .
 
 after_script:
