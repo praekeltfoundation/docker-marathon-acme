@@ -1,5 +1,4 @@
 FROM praekeltfoundation/python3-base:alpine
-MAINTAINER Praekelt.org <sre@praekelt.org>
 
 # Install marathon-acme
 COPY requirements.txt /requirements.txt
