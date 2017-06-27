@@ -1,4 +1,4 @@
-FROM praekeltfoundation/python3-base:alpine
+FROM praekeltfoundation/python-base:3.6-alpine
 
 # Install marathon-acme
 COPY requirements.txt /requirements.txt
