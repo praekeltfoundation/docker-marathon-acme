@@ -23,10 +23,10 @@ after_script:
   - docker images
 
 before_deploy:
-  - pip install docker-ci-deploy==0.2.0
+  - pip install docker-ci-deploy==0.3.0
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
 deploy:
   provider: script
-  script: dcd --tag-version "$version" --tag-semver --tag-latest "$IMAGE"
+  script: dcd --version "$version" --version-semver --version-latest "$IMAGE"
   on:
     branch: master
