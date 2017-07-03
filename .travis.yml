@@ -10,11 +10,12 @@ env:
     - REGISTRY_USER=praekeltorgdeploy
     - secure: "h5ohQBzILUeFhuxHiW7WzG0wHqjGDyT7x7APvB1t5UhLL9DUMeJ1/eOCp010yxVOiVRXwe7V1pZJxwZIs9J5wqZ18/uCVgStO3eWw8tqVT1WYq9McgdQJ5P+vFnle3jgebYEqnV2etwf68cWLkA+lZQl4+0tvxaopPWIadEItOWhLJy6wQo0AEtH7+oRsGfhpuYE6YfTrk619n3r4KR6wULs24YJC0E6jngVsL/RkrdRz0bUjtcgkLLc/wESEC0c3mhoonv68nHRuDdUlVKhVPQvoN2mNGJn73+cOjaMG998PiLSrMHHV196bOpilDV6IakrBgiz83HWtT8/EPHZWfFiinMN54mijk8Ur+LpO4Rzf8S3nX+Ac8UYV1roQqMpY5T3pdsHR53BHB+KeedNwrVDqewvxTdjw7Vo+muW3jQ/N/H7YHdM4aYz1Cu1GZi/IHUmk2+nnx3zEcQtKURckF24oQEa6QdOCl5lgQ7+O2NCime5TVdw1S8En7Rc/y9HTS72qgcO/jYsr9REGoD2wrg5e0+qfvRUxGMvwtcRVC8yte+YbrwtRhvjZxxWN8kzmDz7nxO52hOKWNXJA2GPPJbX0BUX7FBBw6QUubt6HlhLVkkqZ1RuVazoSzFLcgleBiCCWpeK3569NWPc3A13tzkdyYohAhtQK8Olx/zYJSs="
 
+install: [] # Don't install requirements.txt-- it's for the container
+
 before_script:
   - version="$(sed -nE 's/\s*marathon-acme\s*==\s*([^\s\;]+).*/\1/p' requirements.txt)"
   # Pull the existing image to use as a build cache
   - docker pull "$IMAGE"
-
 script:
   - docker build --pull --cache-from "$IMAGE" --tag "$IMAGE" .
   - ./test.py "$IMAGE"
