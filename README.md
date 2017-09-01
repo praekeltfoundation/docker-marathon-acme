@@ -1,5 +1,6 @@
 # docker-marathon-acme
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/praekeltfoundation/marathon-acme.svg)](https://hub.docker.com/r/praekeltfoundation/marathon-acme/)
 [![Requirements Status](https://pyup.io/repos/github/praekeltfoundation/docker-marathon-acme/shield.svg)](https://pyup.io/repos/github/praekeltfoundation/docker-marathon-acme/)
 [![Build Status](https://travis-ci.org/praekeltfoundation/docker-marathon-acme.svg?branch=master)](https://travis-ci.org/praekeltfoundation/docker-marathon-acme)
 
