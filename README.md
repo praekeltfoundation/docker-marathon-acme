@@ -1,6 +1,6 @@
 # docker-marathon-acme
 
-[![Requirements Status](https://requires.io/github/praekeltfoundation/docker-marathon-acme/requirements.svg?branch=master)](https://requires.io/github/praekeltfoundation/docker-marathon-acme/requirements/?branch=master)
+[![Requirements Status](https://pyup.io/repos/github/praekeltfoundation/docker-marathon-acme/shield.svg)](https://pyup.io/repos/github/praekeltfoundation/docker-marathon-acme/)
 [![Build Status](https://travis-ci.org/praekeltfoundation/docker-marathon-acme.svg?branch=master)](https://travis-ci.org/praekeltfoundation/docker-marathon-acme)
 
 Release Docker images for [`marathon-acme`](https://github.com/praekeltfoundation/marathon-acme).
