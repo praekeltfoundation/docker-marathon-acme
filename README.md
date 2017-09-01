@@ -10,7 +10,8 @@ Arguments can be provided to the container to configure `marathon-acme`:
 ```
 > $ docker run --rm praekeltfoundation/marathon-acme --help
 usage: marathon-acme [-h] [-a ACME] [-e EMAIL] [-m MARATHON[,MARATHON,...]]
-                     [-l LB[,LB,...]] [-g GROUP] [--listen LISTEN]
+                     [-l LB[,LB,...]] [-g GROUP] [--allow-multiple-certs]
+                     [--listen LISTEN]
                      [--log-level {debug,info,warn,error,critical}]
                      storage-dir
 
@@ -35,11 +36,10 @@ In most cases, `marathon-acme` should be run using Marathon itself. Here is an e
   ],
   "labels": {
     "HAPROXY_GROUP": "external",
-    "HAPROXY_0_VHOST": "example.com",
+    "HAPROXY_0_VHOST": "marathon-acme.example.com",
     "HAPROXY_0_BACKEND_WEIGHT": "1",
     "HAPROXY_0_PATH": "/.well-known/acme-challenge/",
-    "HAPROXY_0_HTTP_FRONTEND_ACL_WITH_PATH": "  acl path_{backend} path_beg {path}\n  use_backend {backend} if path_{backend}\n",
-    "HAPROXY_0_HTTPS_FRONTEND_ACL_WITH_PATH": "  use_backend {backend} if path_{backend}\n"
+    "HAPROXY_0_HTTP_FRONTEND_ACL_WITH_PATH": "  acl host_{cleanedUpHostname} hdr(host) -i {hostname}\n  acl path_{backend} path_beg {path}\n  redirect prefix http://{hostname} code 302 if !host_{cleanedUpHostname} path_{backend}\n  use_backend {backend} if host_{cleanedUpHostname} path_{backend}\n"
   },
   "container": {
     "type": "DOCKER",
