@@ -1,11 +1,11 @@
 FROM praekeltfoundation/python-base:3.6-alpine
 
 # Install marathon-acme
-COPY requirements.txt /requirements.txt
+COPY docker-requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Set up the entrypoint
-COPY entrypoint.sh /scripts/marathon-acme-entrypoint.sh
+COPY docker-entrypoint.sh /scripts/marathon-acme-entrypoint.sh
 ENTRYPOINT ["marathon-acme-entrypoint.sh"]
 
 # Set up some defaults
