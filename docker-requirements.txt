@@ -1,1 +1,1 @@
-marathon-acme==0.4.0
+marathon-acme==0.5.0
