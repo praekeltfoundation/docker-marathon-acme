@@ -59,7 +59,8 @@ class TestEntrypoint(unittest.TestCase):
         When the container is run and its first argument looks like a path to a
         directory, marathon-acme should be run with that path as an argument.
         """
-        completed_process = run_container('/tmp')
+        completed_process = run_container(
+            '/tmp', '-a', 'https://acme-staging.api.letsencrypt.org/directory')
         # marathon-acme started...
         self.assertRegex(completed_process.stdout, r'Running marathon-acme')
         # The storage-dir is set to /tmp
@@ -92,10 +93,13 @@ class TestEntrypoint(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir = os.path.abspath(tmpdir)
-            run_container(docker_opts=[
-                '-e', 'MARATHON_ACME_USER=%s:%s' % (uid, gid),
-                '-v', '%s:/var/lib/marathon-acme' % (tmpdir,),
-            ])
+            run_container(
+                '-a', 'https://acme-staging.api.letsencrypt.org/directory',
+                docker_opts=[
+                    '-e', 'MARATHON_ACME_USER=%s:%s' % (uid, gid),
+                    '-v', '%s:/var/lib/marathon-acme' % (tmpdir,),
+                ]
+            )
 
             # Check the files written have the correct owner
             client_key = os.path.join(tmpdir, 'client.key')
