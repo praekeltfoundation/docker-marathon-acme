@@ -28,22 +28,6 @@ def run_container(*args, docker_opts=[]):
 
 
 class TestEntrypoint(unittest.TestCase):
-    def test_no_args(self):
-        """
-        When the container is run with no arguments, marathon-acme should start
-        and the storage directory should default to /var/lib/marathon-acme.
-        """
-        completed_process = run_container()
-        # marathon-acme started...
-        self.assertRegex(completed_process.stdout, r'Running marathon-acme')
-        # The storage-dir defaulted to /var/lib/marathon-acme
-        self.assertRegex(completed_process.stdout, r'/var/lib/marathon-acme')
-        # There was some error message
-        self.assertRegex(completed_process.stderr, r'error')
-
-        # FIXME: Apparently the returncode is 0 :/
-        self.assertEqual(completed_process.returncode, 0)
-
     def test_first_argument_is_option(self):
         """
         When the container is run and its first argument looks like an option,
