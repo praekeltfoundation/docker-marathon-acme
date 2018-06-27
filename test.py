@@ -7,10 +7,10 @@ import unittest
 
 # NOTE: these tests don't really work on Docker for Mac. There are two issues:
 # * `docker run` commands have a *lot* more latency on Docker for Mac and often
-#   time out... even with 30 seconds of leeway.
+#   time out... even with 60 seconds of leeway.
 # * The location that Python creates temporary directories isn't (by default)
 #   shared with Docker containers.
-DEFAULT_TIMEOUT = 30  # Seconds
+DEFAULT_TIMEOUT = 60  # Seconds
 
 image = None
 
