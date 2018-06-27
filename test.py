@@ -79,6 +79,7 @@ class TestEntrypoint(unittest.TestCase):
             tmpdir = os.path.abspath(tmpdir)
             run_container(
                 '-a', 'https://acme-staging.api.letsencrypt.org/directory',
+                '/var/lib/marathon-acme',
                 docker_opts=[
                     '-e', 'MARATHON_ACME_USER=%s:%s' % (uid, gid),
                     '-v', '%s:/var/lib/marathon-acme' % (tmpdir,),
