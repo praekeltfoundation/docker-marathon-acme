@@ -9,7 +9,7 @@ if [ "${1#-}" != "$1" ] || [ -d "$1" ]; then
 fi
 
 # If a user has been provided to run as, add the user switch to the command
-if [ -n "$MARATHON_ACME_USER" ] && [ "$1" == 'marathon-acme' ]; then
+if [ -n "$MARATHON_ACME_USER" ] && [ "$1" = 'marathon-acme' ]; then
   set -- su-exec "$MARATHON_ACME_USER" "$@"
 fi
 
