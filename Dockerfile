@@ -1,4 +1,4 @@
-FROM praekeltfoundation/python-base:3.6-alpine
+FROM praekeltfoundation/python-base:3.6
 
 # Install marathon-acme
 COPY docker-requirements.txt /requirements.txt
