@@ -10,7 +10,7 @@ import unittest
 #   time out... even with 60 seconds of leeway.
 # * The location that Python creates temporary directories isn't (by default)
 #   shared with Docker containers.
-DEFAULT_TIMEOUT = 90  # Seconds
+DEFAULT_TIMEOUT = 60  # Seconds
 
 image = None
 
