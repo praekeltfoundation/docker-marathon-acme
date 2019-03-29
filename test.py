@@ -27,8 +27,8 @@ def run_container(*args, docker_opts=[]):
             universal_newlines=True
         )
     except subprocess.TimeoutExpired as e:
-        print('stdout: ', e.stdout)
-        print('stderr: ', e.stderr)
+        print('stdout:', e.stdout)
+        print('stderr:', e.stderr)
         raise
 
 
