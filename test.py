@@ -18,13 +18,18 @@ image = None
 def run_container(*args, docker_opts=[]):
     run_args = ['docker', 'run', '--rm'] + docker_opts + [image] + list(args)
     # Requires Python 3.5+
-    return subprocess.run(
-        run_args,
-        timeout=DEFAULT_TIMEOUT,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        universal_newlines=True
-    )
+    try:
+        return subprocess.run(
+            run_args,
+            timeout=DEFAULT_TIMEOUT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+    except subprocess.TimeoutExpired as e:
+        print('stdout: ', e.stdout)
+        print('stderr: ', e.stderr)
+        raise
 
 
 class TestEntrypoint(unittest.TestCase):
